@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es" data-tema="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Para Lili — tu trabajo en EMMA</title>
+<style>
+  :root{
+    --bg:#faf7f2; --surface:#fff; --panel:#f3efe8; --ink:#241f1a; --soft:#574f45; --faint:#7a7065;
+    --line:rgba(60,40,20,.13);
+    --accent:#c0562a; --accent-soft:rgba(192,86,42,.10);
+    --auto:#1f7a6b; --auto-soft:rgba(31,122,107,.12);
+    --fs:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --serif:"Iowan Old Style","Palatino",Georgia,"Times New Roman",serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-tema="light"]){
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13); --accent:#e8824f; --accent-soft:rgba(232,130,79,.15); --auto:#3fb89f; --auto-soft:rgba(63,184,159,.16);
+    color-scheme:dark;
+  }}
+  :root[data-tema="dark"]{
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13); --accent:#e8824f; --accent-soft:rgba(232,130,79,.15); --auto:#3fb89f; --auto-soft:rgba(63,184,159,.16);
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:18px/1.6 var(--fs);-webkit-font-smoothing:antialiased;
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .wrap{max-width:720px;margin:0 auto;padding:36px 4px 90px}
+  .glifo{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tgl{position:fixed;top:14px;right:14px;z-index:9;background:var(--surface);border:1px solid var(--line);color:var(--soft);width:42px;height:42px;border-radius:12px;cursor:pointer;display:grid;place-items:center}
+  .tgl:focus-visible{outline:3px solid var(--auto);outline-offset:2px} .tgl .glifo{width:20px;height:20px}
+  .hero{padding:40px 0 24px;border-bottom:1px solid var(--line)}
+  .kick{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+  h1{font:600 clamp(34px,8vw,52px)/1.05 var(--serif);letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+  .sub{font:300 clamp(18px,3vw,21px)/1.5 var(--fs);color:var(--soft);max-width:56ch;margin:0}
+  .sub b{color:var(--ink)}
+  .list{padding:28px 0 10px}
+  .card{display:flex;align-items:center;gap:16px;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px;transition:border-color .15s,transform .08s}
+  .card:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .card:focus-visible{outline:3px solid var(--auto);outline-offset:3px}
+  .num{flex:none;width:46px;height:46px;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+  .num .glifo{width:24px;height:24px}
+  .card.start .num{background:var(--auto-soft);color:var(--auto)}
+  .tx{flex:1;min-width:0}
+  .tt{display:block;font:600 19px var(--serif);margin-bottom:3px}
+  .ds{display:block;font-size:14.5px;color:var(--faint);line-height:1.45}
+  .badge{display:inline-block;font:700 10px var(--fs);letter-spacing:.06em;text-transform:uppercase;color:var(--auto);background:var(--auto-soft);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:1px}
+  .ar{flex:none;color:var(--faint)} .ar .glifo{width:22px;height:22px;stroke-width:2}
+  .assets{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:8px 0 0;font-size:15px;color:var(--soft);line-height:1.55}
+  .assets b{color:var(--ink)}
+  .foot{text-align:center;color:var(--faint);font-size:14px;margin-top:28px;line-height:1.6}
+</style>
+<!--lectura-facil-v1-->
+<style id="lf-style">
+  /* ===== Modo Lectura fácil (dislexia) · opt-in, DUA: otra forma de representar ===== */
+  html[data-lectura="facil"] body{
+    font-family:Verdana,Tahoma,"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    letter-spacing:.035em; word-spacing:.09em; line-height:1.75;
+  }
+  html[data-lectura="facil"] p,
+  html[data-lectura="facil"] li,
+  html[data-lectura="facil"] .st-b,
+  html[data-lectura="facil"] .ds,
+  html[data-lectura="facil"] .sub,
+  html[data-lectura="facil"] .lead,
+  html[data-lectura="facil"] .nd{
+    max-width:64ch; text-align:left !important; line-height:1.8;
+  }
+  html[data-lectura="facil"] em,
+  html[data-lectura="facil"] i{ font-style:normal; font-weight:600; }
+  html[data-lectura="facil"] h1,
+  html[data-lectura="facil"] h2,
+  html[data-lectura="facil"] h3{ letter-spacing:.005em; word-spacing:.04em; }
+  /* botón flotante */
+  .lf-btn{position:fixed;left:16px;bottom:16px;z-index:99999;display:inline-flex;align-items:center;gap:8px;
+    background:#1f7a6b;color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:11px 15px;box-shadow:0 8px 22px -10px rgba(0,0,0,.5)}
+  .lf-btn:hover{filter:brightness(1.06)}
+  .lf-btn:focus-visible{outline:3px solid #c0562a;outline-offset:2px}
+  .lf-btn .b{font-weight:800;font-size:15px;letter-spacing:.02em}
+  html[data-lectura="facil"] .lf-btn{background:#c0562a}
+  @media (max-width:420px){ .lf-btn{padding:10px 13px;font-size:13px} }
+  @media print{ .lf-btn{display:none} }
+</style>
+
+</head>
+<body>
+<button class="tgl" id="tgl" aria-label="Cambiar entre modo claro y oscuro"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg></button>
+<div class="wrap">
+  <header class="hero">
+    <p class="kick">Para tía Lili · co-diseñadora</p>
+    <h1>Hola, soy EMMA.</h1>
+    <p class="sub">Gracias por ayudarme a estar más linda. Tú le vas a poner <b>mi cara de Oaxaca</b>. Aquí tienes, en un sitio, <b>lo que necesitas</b> — mira lo que ya tengo, aprende a vestirme, sigue tu camino — y luego <b>entra a conocerme</b>. Sin prisa.</p>
+  </header>
+
+  <nav class="list">
+    <a class="card start" href="galeria.html">
+      <span class="num"><svg class="glifo" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      <span class="tx"><span class="tt">Mira lo que ya tengo <span class="badge">míralo todo</span></span><span class="ds">Todas mis piezas a la vista: pantallas, láminas, iconos, grecas, mapas y marca. 207 en total.</span></span>
+      <span class="ar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></a>
+
+    <a class="card" href="disena_con_emma.html">
+      <span class="num"><svg class="glifo" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z M8 10h8 M8 13h5"/></svg></span>
+      <span class="tx"><span class="tt">Diseña conmigo <span class="badge">te hablo</span></span><span class="ds">Hablamos y te voy preguntando mientras diseñas — te ayudo a decidir y te doy tus piezas. Ya conectada para probar.</span></span>
+      <span class="ar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></a>
+
+    <a class="card" href="VESTIR_EMMA_guia_Lili.html">
+      <span class="num"><svg class="glifo" viewBox="0 0 24 24"><path d="M4 4l4 2 4-2 4 2 4-2v5l-4 2v9H8v-9L4 9z"/></svg></span>
+      <span class="tx"><span class="tt">Cómo vestirme</span><span class="ds">Las reglas de mi piel: los colores, las grecas, los iconos — qué sí y qué nunca.</span></span>
+      <span class="ar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></a>
+
+    <a class="card" href="CAMINO_Lili_estilo_Apple.html">
+      <span class="num"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 20l4-9 4 4 6-11 M5 20h14"/></svg></span>
+      <span class="tx"><span class="tt">Tu camino, paso a paso</span><span class="ds">Lo que necesitas hacer, en pasos sencillos — qué ya está y qué falta. Sin agobios.</span></span>
+      <span class="ar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></a>
+
+    <a class="card" href="portada.html">
+      <span class="num"><svg class="glifo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18 M8 4v5"/></svg></span>
+      <span class="tx"><span class="tt">Entra a conocerme <span class="badge">la app</span></span><span class="ds">Mírame por dentro: portada → "¿quién eres?" → el taller. Esto es lo que vistes.</span></span>
+      <span class="ar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></span></a>
+  </nav>
+
+  <p class="foot">Proyecto Guelaguetza · EMMA — co-diseño de la piel oaxaqueña<br>Gracias, Lili. Un paso cada vez.</p>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('tgl');
+    function cur(){ return document.documentElement.getAttribute('data-tema')==='dark'||(document.documentElement.getAttribute('data-tema')!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; }
+    t.addEventListener('click',function(){ document.documentElement.setAttribute('data-tema', cur()==='dark'?'light':'dark'); });
+  })();
+</script>
+<!--lectura-facil-v1-->
+<button class="lf-btn" id="lfBtn" type="button" aria-pressed="false" aria-label="Activar o desactivar el modo de lectura fácil para dislexia"><span class="b">Aa</span> Lectura fácil</button>
+<script>
+  (function(){
+    var K="emma-lectura", el=document.documentElement, b=document.getElementById("lfBtn");
+    function set(on){
+      el.setAttribute("data-lectura", on?"facil":"normal");
+      b.setAttribute("aria-pressed", on?"true":"false");
+      b.lastChild.textContent = on ? " Lectura fácil ✓" : " Lectura fácil";
+      try{ localStorage.setItem(K, on?"1":"0"); }catch(e){}
+    }
+    var saved="0"; try{ saved=localStorage.getItem(K)||"0"; }catch(e){}
+    set(saved==="1");
+    b.addEventListener("click", function(){ set(el.getAttribute("data-lectura")!=="facil"); });
+  })();
+</script>
+
+</body>
+</html>

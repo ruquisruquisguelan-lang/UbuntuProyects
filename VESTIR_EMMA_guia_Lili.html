@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es" data-tema="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cómo vestir EMMA · guía para Lili</title>
+<style>
+  :root{
+    --bg:#faf7f2; --surface:#fff; --panel:#f3efe8; --ink:#241f1a; --soft:#574f45; --faint:#7a7065;
+    --line:rgba(60,40,20,.13);
+    --barro:#c0502f; --barro-soft:rgba(192,80,47,.10);
+    --jade:#0f5a46; --jade-soft:rgba(15,90,70,.11);
+    --ocre:#c69a45; --borgona:#6b1a2a; --crema:#f5efe6; --carbon:#292b28;
+    --fs:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --serif:"Iowan Old Style","Palatino",Georgia,"Times New Roman",serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-tema="light"]){
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13);
+    --barro:#e8824f; --barro-soft:rgba(232,130,79,.14); --jade:#3fb89f; --jade-soft:rgba(63,184,159,.14); --ocre:#d9b25a;
+    color-scheme:dark;
+  }}
+  :root[data-tema="dark"]{
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13);
+    --barro:#e8824f; --barro-soft:rgba(232,130,79,.14); --jade:#3fb89f; --jade-soft:rgba(63,184,159,.14); --ocre:#d9b25a;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:18px/1.6 var(--fs);-webkit-font-smoothing:antialiased;
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .wrap{max-width:680px;margin:0 auto;padding:34px 4px 90px}
+  .glifo{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tgl{position:fixed;top:14px;right:14px;z-index:9;background:var(--surface);border:1px solid var(--line);color:var(--soft);width:42px;height:42px;border-radius:12px;cursor:pointer;display:grid;place-items:center}
+  .tgl:focus-visible{outline:3px solid var(--jade);outline-offset:2px} .tgl .glifo{width:20px;height:20px;stroke-width:1.8}
+
+  .hero{padding:6px 0 22px;border-bottom:1px solid var(--line)}
+  .kick{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--barro);margin:0 0 12px}
+  h1{font:600 clamp(32px,7.5vw,50px)/1.06 var(--serif);letter-spacing:-.02em;margin:0 0 14px}
+  .sub{font:300 clamp(17px,3.2vw,20px)/1.55 var(--fs);color:var(--soft);max-width:54ch;margin:0}
+  .sub b{color:var(--ink)}
+
+  h2{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--barro);margin:30px 0 4px}
+  .lead{font:300 16.5px/1.5 var(--fs);color:var(--soft);max-width:56ch;margin:0 0 14px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 19px;margin:0 0 13px}
+  .ct{font:600 19px/1.25 var(--serif);margin:0 0 7px}
+  .cb{font-size:15.5px;line-height:1.55;color:var(--soft);margin:0}
+  .cb b{color:var(--ink)}
+
+  /* swatches */
+  .pal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 2px}
+  .sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+  .sw .chip{height:52px}
+  .sw .nm{padding:8px 10px;font-size:12.5px;color:var(--soft);line-height:1.3}
+  .sw .nm b{color:var(--ink);display:block;font-size:13px}
+  @media(max-width:460px){.pal{grid-template-columns:repeat(2,1fr)}}
+
+  /* sí / no */
+  .dd{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 2px}
+  @media(max-width:540px){.dd{grid-template-columns:1fr}}
+  .col{border:1px solid var(--line);border-radius:16px;padding:15px 16px}
+  .col.si{background:var(--jade-soft);border-color:color-mix(in srgb,var(--jade) 30%,var(--line))}
+  .col.no{background:var(--barro-soft);border-color:color-mix(in srgb,var(--barro) 30%,var(--line))}
+  .col h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:700 13px var(--fs);letter-spacing:.04em;text-transform:uppercase}
+  .col.si h3{color:var(--jade)} .col.no h3{color:var(--barro)}
+  .col h3 .glifo{width:18px;height:18px;stroke-width:2.6}
+  .col ul{margin:0;padding:0;list-style:none}
+  .col li{position:relative;padding:4px 0 4px 18px;font-size:14.5px;line-height:1.5;color:var(--soft)}
+  .col li::before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;border-radius:50%}
+  .col.si li::before{background:var(--jade)} .col.no li::before{background:var(--barro)}
+  .col li b{color:var(--ink)}
+
+  .check{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:8px 0 0}
+  .check h3{margin:0 0 12px;font:600 18px var(--serif)}
+  .check ol{margin:0;padding-left:0;list-style:none;counter-reset:c}
+  .check li{position:relative;counter-increment:c;padding:8px 0 8px 34px;font-size:15px;color:var(--soft);line-height:1.5;border-top:1px solid var(--line)}
+  .check li:first-child{border-top:0}
+  .check li::before{content:counter(c);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:7px;background:var(--jade-soft);color:var(--jade);display:grid;place-items:center;font:600 13px var(--fs)}
+  .check li b{color:var(--ink)}
+
+  .foot{text-align:center;color:var(--faint);font-size:14px;margin-top:30px;line-height:1.6;border-top:1px solid var(--line);padding-top:22px}
+</style>
+<!--lectura-facil-v1-->
+<style id="lf-style">
+  /* ===== Modo Lectura fácil (dislexia) · opt-in, DUA: otra forma de representar ===== */
+  html[data-lectura="facil"] body{
+    font-family:Verdana,Tahoma,"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    letter-spacing:.035em; word-spacing:.09em; line-height:1.75;
+  }
+  html[data-lectura="facil"] p,
+  html[data-lectura="facil"] li,
+  html[data-lectura="facil"] .st-b,
+  html[data-lectura="facil"] .ds,
+  html[data-lectura="facil"] .sub,
+  html[data-lectura="facil"] .lead,
+  html[data-lectura="facil"] .nd{
+    max-width:64ch; text-align:left !important; line-height:1.8;
+  }
+  html[data-lectura="facil"] em,
+  html[data-lectura="facil"] i{ font-style:normal; font-weight:600; }
+  html[data-lectura="facil"] h1,
+  html[data-lectura="facil"] h2,
+  html[data-lectura="facil"] h3{ letter-spacing:.005em; word-spacing:.04em; }
+  /* botón flotante */
+  .lf-btn{position:fixed;left:16px;bottom:16px;z-index:99999;display:inline-flex;align-items:center;gap:8px;
+    background:#1f7a6b;color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:11px 15px;box-shadow:0 8px 22px -10px rgba(0,0,0,.5)}
+  .lf-btn:hover{filter:brightness(1.06)}
+  .lf-btn:focus-visible{outline:3px solid #c0562a;outline-offset:2px}
+  .lf-btn .b{font-weight:800;font-size:15px;letter-spacing:.02em}
+  html[data-lectura="facil"] .lf-btn{background:#c0562a}
+  @media (max-width:420px){ .lf-btn{padding:10px 13px;font-size:13px} }
+  @media print{ .lf-btn{display:none} }
+</style>
+
+</head>
+<body>
+<button class="tgl" id="tgl" aria-label="Cambiar entre modo claro y oscuro"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg></button>
+<div class="wrap">
+  <header class="hero">
+    <p class="kick">Proyecto Guelaguetza · para Lili</p>
+    <h1>Cómo vestir EMMA</h1>
+    <p class="sub">EMMA es <b>una app, un motor, y tú le pones la cara</b>. El motor no se toca; la piel es tuya. Estas son las pocas reglas para que tu diseño <b>encaje, funcione y sea ligero</b>. Son sencillas — cuando las conoces, el resto es tu arte.</p>
+  </header>
+
+  <h2>La idea madre</h2>
+  <div class="card">
+    <p class="ct">Materia, no calcomanía</p>
+    <p class="cb">Lo oaxaqueño entra como <b>material de construcción</b>, no como pegatina. La greca de Mitla se usa por su <b>ritmo escalonado</b> —una banda bajo la cabecera, el patrón de un cuenco, el icono de la constancia—, nunca como un logo pegado ni como adorno de relleno. Nada de deidades ni símbolos sagrados usados como decoración.</p>
+  </div>
+  <div class="card">
+    <p class="ct">El criterio para decidir</p>
+    <p class="cb">Cuando dudes si algo encaja, no te preguntes "¿parece moderno?" ni "¿parece de IA?". Pregúntate: <b>"¿podría salir de este taller? ¿a mi madre le gustaría?"</b> Si la respuesta es sí, va bien.</p>
+  </div>
+
+  <h2>Los ingredientes</h2>
+  <p class="lead">Usa siempre estos, y solo estos.</p>
+
+  <div class="card">
+    <p class="ct">La paleta — los 6 colores</p>
+    <div class="pal">
+      <div class="sw"><div class="chip" style="background:#c0502f"></div><div class="nm"><b>Terracota</b>#C0502F</div></div>
+      <div class="sw"><div class="chip" style="background:#0f5a46"></div><div class="nm"><b>Verde cantera</b>#0F5A46</div></div>
+      <div class="sw"><div class="chip" style="background:#c69a45"></div><div class="nm"><b>Ocre / oro</b>#C69A45</div></div>
+      <div class="sw"><div class="chip" style="background:#6b1a2a"></div><div class="nm"><b>Borgoña</b>#6B1A2A</div></div>
+      <div class="sw"><div class="chip" style="background:#f5efe6;border-bottom:1px solid var(--line)"></div><div class="nm"><b>Crema cálida</b>#F5EFE6</div></div>
+      <div class="sw"><div class="chip" style="background:#292b28"></div><div class="nm"><b>Carbón</b>#292B28</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="ct">Los iconos</p>
+    <p class="cb">De <b>trazo</b> (línea), no rellenos: un solo color que hereda del texto, esquinas redondeadas, grosor parejo en todos. Así pesan poco, escalan sin romperse y cambian de color solos en claro y oscuro. <b>Dibuja en SVG</b> siempre que puedas. <b>Sin emojis</b> en la interfaz.</p>
+  </div>
+
+  <div class="card">
+    <p class="ct">Las palabras</p>
+    <p class="cb">En la app se habla de <b>"tú"</b>, en español de México. Y con nombres propios, no anglicismos: <b>"panel"</b> (no "dashboard"), <b>"sello"</b> (no "badge").</p>
+  </div>
+
+  <h2>Lo que sí y lo que nunca</h2>
+  <p class="lead">Esto no es estilo: es la constitución de EMMA. Romperlo rompe el motor.</p>
+
+  <div class="dd">
+    <div class="col si">
+      <h3><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Sí</h3>
+      <ul>
+        <li>El avance se <b>vive dentro de la historia</b>; la constancia se gana y se posee, como un objeto.</li>
+        <li>Cuando algo hay que repasar: <b>ámbar maíz "para revisar" con una frase</b> que lo explique.</li>
+        <li>Pensada <b>offline y sin cuenta</b>: se abre y ya está.</li>
+        <li>Que se entienda <b>sin depender solo del color</b> (también por forma o texto).</li>
+      </ul>
+    </div>
+    <div class="col no">
+      <h3><svg class="glifo" viewBox="0 0 24 24"><path d="M6 6l12 12 M18 6L6 18"/></svg> Nunca</h3>
+      <ul>
+        <li><b>Medallas, puntos, XP, rachas, confeti, "¡Felicidades!"</b> ni barras de nivel que suben solas.</li>
+        <li><b>Rojo de "error"</b> al alumno por una respuesta.</li>
+        <li><b>"Iniciar sesión", avatar, "sincronizar", "conectando…"</b> — no hay nube ni cuenta.</li>
+        <li>Grecas o símbolos como <b>logo</b> o adorno de relleno.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Que funcione y pese poco</h2>
+  <div class="card">
+    <p class="cb"><b>SVG</b> siempre que puedas (ligero, escala, cambia de color solo). Prueba tu diseño en <b>claro y en oscuro</b>, los dos. El movimiento, suave; si el dispositivo pide menos animación, que lo respete. Y entrega con <b>nombres de archivo ordenados</b> y una sola copia de cada cosa.</p>
+  </div>
+
+  <div class="check">
+    <h3>Antes de entregar, 6 preguntas</h3>
+    <ol>
+      <li>¿Cada adorno tiene <b>función</b>, o es calcomanía?</li>
+      <li>¿Los iconos son de <b>trazo</b> y un solo color?</li>
+      <li>¿Nada de <b>medallas, puntos ni "iniciar sesión"</b>?</li>
+      <li>¿El "revisar" es <b>ámbar con texto</b>, no rojo?</li>
+      <li>¿Funciona en <b>claro y oscuro</b>?</li>
+      <li>¿Pasaría el criterio: <b>"¿a mi madre le gustaría?"</b></li>
+    </ol>
+  </div>
+
+  <p class="foot">Una app, un motor, muchas pieles. Tú haces la de Oaxaca.<br>Proyecto Guelaguetza · EMMA</p>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('tgl');
+    function cur(){ return document.documentElement.getAttribute('data-tema')==='dark'||(document.documentElement.getAttribute('data-tema')!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; }
+    t.addEventListener('click',function(){ document.documentElement.setAttribute('data-tema', cur()==='dark'?'light':'dark'); });
+  })();
+</script>
+<!--lectura-facil-v1-->
+<button class="lf-btn" id="lfBtn" type="button" aria-pressed="false" aria-label="Activar o desactivar el modo de lectura fácil para dislexia"><span class="b">Aa</span> Lectura fácil</button>
+<script>
+  (function(){
+    var K="emma-lectura", el=document.documentElement, b=document.getElementById("lfBtn");
+    function set(on){
+      el.setAttribute("data-lectura", on?"facil":"normal");
+      b.setAttribute("aria-pressed", on?"true":"false");
+      b.lastChild.textContent = on ? " Lectura fácil ✓" : " Lectura fácil";
+      try{ localStorage.setItem(K, on?"1":"0"); }catch(e){}
+    }
+    var saved="0"; try{ saved=localStorage.getItem(K)||"0"; }catch(e){}
+    set(saved==="1");
+    b.addEventListener("click", function(){ set(el.getAttribute("data-lectura")!=="facil"); });
+  })();
+</script>
+
+</body>
+</html>

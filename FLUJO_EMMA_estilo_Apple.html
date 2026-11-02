@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es" data-tema="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El ciclo EMMA — cómo fluye</title>
+<style>
+  :root{
+    --bg:#faf7f2; --surface:#fff; --panel:#f3efe8; --ink:#241f1a; --soft:#574f45; --faint:#7a7065;
+    --line:rgba(60,40,20,.13); --line-soft:rgba(60,40,20,.07);
+    --accent:#c0562a; --accent-soft:rgba(192,86,42,.10);
+    --auto:#1f7a6b; --auto-soft:rgba(31,122,107,.12);
+    --comm:#6a4a9c; --comm-soft:rgba(106,74,156,.12);
+    --ocre:#b98a2e; --ocre-soft:rgba(185,138,46,.14);
+    --fs:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --serif:"Iowan Old Style","Palatino",Georgia,"Times New Roman",serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-tema="light"]){
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13); --line-soft:rgba(255,255,255,.06);
+    --accent:#e8824f; --accent-soft:rgba(232,130,79,.15); --auto:#3fb89f; --auto-soft:rgba(63,184,159,.16);
+    --comm:#b79ae6; --comm-soft:rgba(183,154,230,.16); --ocre:#d9b25a; --ocre-soft:rgba(217,178,90,.16);
+    color-scheme:dark;
+  }}
+  :root[data-tema="dark"]{
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13); --line-soft:rgba(255,255,255,.06);
+    --accent:#e8824f; --accent-soft:rgba(232,130,79,.15); --auto:#3fb89f; --auto-soft:rgba(63,184,159,.16);
+    --comm:#b79ae6; --comm-soft:rgba(183,154,230,.16); --ocre:#d9b25a; --ocre-soft:rgba(217,178,90,.16);
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:18px/1.6 var(--fs);-webkit-font-smoothing:antialiased;
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .wrap{max-width:720px;margin:0 auto;padding:36px 4px 90px}
+  .glifo{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tgl{position:fixed;top:14px;right:14px;z-index:9;background:var(--surface);border:1px solid var(--line);color:var(--soft);width:42px;height:42px;border-radius:12px;cursor:pointer;display:grid;place-items:center}
+  .tgl:focus-visible{outline:3px solid var(--auto);outline-offset:2px} .tgl .glifo{width:20px;height:20px}
+  .back{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--faint);font-size:14px;font-weight:600;margin-bottom:22px}
+  .back:hover{color:var(--accent)}
+  .hero{padding:6px 0 24px;border-bottom:1px solid var(--line)}
+  .kick{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  h1{font:600 clamp(32px,7.5vw,50px)/1.06 var(--serif);letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+  .sub{font:300 clamp(17px,3vw,21px)/1.5 var(--fs);color:var(--soft);max-width:58ch;margin:0}
+
+  .flow{padding:30px 0 6px}
+  .step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 20px;margin:0}
+  .step .top{display:flex;align-items:center;gap:13px;margin-bottom:10px}
+  .pill{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font:600 17px var(--serif)}
+  .step.a .pill{background:var(--auto-soft);color:var(--auto)}
+  .step.b .pill{background:var(--comm-soft);color:var(--comm)}
+  .step.c .pill{background:var(--ocre-soft);color:var(--ocre)}
+  .step.d .pill{background:var(--accent-soft);color:var(--accent)}
+  .who{font:700 11px var(--fs);letter-spacing:.1em;text-transform:uppercase}
+  .step.a .who{color:var(--auto)} .step.b .who{color:var(--comm)} .step.c .who{color:var(--ocre)} .step.d .who{color:var(--accent)}
+  .st-t{font:600 21px/1.25 var(--serif);margin:1px 0 0}
+  .st-b{font-size:15.5px;line-height:1.55;color:var(--soft);margin:0}
+  .st-b b{color:var(--ink)}
+  .tag{display:inline-block;font:600 12.5px var(--fs);color:var(--faint);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:12px 6px 0 0}
+  .conn{display:grid;place-items:center;height:30px;color:var(--faint)}
+  .conn .glifo{width:22px;height:22px;stroke-width:2}
+  .loop{display:flex;align-items:flex-start;gap:12px;background:var(--panel);border:1px dashed var(--line);border-radius:16px;padding:16px 18px;margin:18px 0 0;font-size:15px;color:var(--soft);line-height:1.55}
+  .loop .glifo{flex:none;width:22px;height:22px;stroke:var(--accent);margin-top:2px}
+  .loop b{color:var(--ink)}
+
+  .uses{margin:34px 0 0}
+  .uses h2{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+  .uses .lead{font:300 16px/1.5 var(--fs);color:var(--soft);margin:0 0 16px;max-width:56ch}
+  .ucards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px}
+  .uc .ut{font:600 16px var(--serif);margin:0 0 4px}
+  .uc .ud{font-size:14px;color:var(--faint);line-height:1.45;margin:0}
+  .foot{text-align:center;color:var(--faint);font-size:14px;margin-top:34px;line-height:1.6;border-top:1px solid var(--line);padding-top:24px}
+  @media(max-width:540px){.ucards{grid-template-columns:1fr}}
+</style>
+<!--lectura-facil-v1-->
+<style id="lf-style">
+  /* ===== Modo Lectura fácil (dislexia) · opt-in, DUA: otra forma de representar ===== */
+  html[data-lectura="facil"] body{
+    font-family:Verdana,Tahoma,"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    letter-spacing:.035em; word-spacing:.09em; line-height:1.75;
+  }
+  html[data-lectura="facil"] p,
+  html[data-lectura="facil"] li,
+  html[data-lectura="facil"] .st-b,
+  html[data-lectura="facil"] .ds,
+  html[data-lectura="facil"] .sub,
+  html[data-lectura="facil"] .lead,
+  html[data-lectura="facil"] .nd{
+    max-width:64ch; text-align:left !important; line-height:1.8;
+  }
+  html[data-lectura="facil"] em,
+  html[data-lectura="facil"] i{ font-style:normal; font-weight:600; }
+  html[data-lectura="facil"] h1,
+  html[data-lectura="facil"] h2,
+  html[data-lectura="facil"] h3{ letter-spacing:.005em; word-spacing:.04em; }
+  /* botón flotante */
+  .lf-btn{position:fixed;left:16px;bottom:16px;z-index:99999;display:inline-flex;align-items:center;gap:8px;
+    background:#1f7a6b;color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:11px 15px;box-shadow:0 8px 22px -10px rgba(0,0,0,.5)}
+  .lf-btn:hover{filter:brightness(1.06)}
+  .lf-btn:focus-visible{outline:3px solid #c0562a;outline-offset:2px}
+  .lf-btn .b{font-weight:800;font-size:15px;letter-spacing:.02em}
+  html[data-lectura="facil"] .lf-btn{background:#c0562a}
+  @media (max-width:420px){ .lf-btn{padding:10px 13px;font-size:13px} }
+  @media print{ .lf-btn{display:none} }
+</style>
+
+</head>
+<body>
+<button class="tgl" id="tgl" aria-label="Cambiar entre modo claro y oscuro"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg></button>
+<div class="wrap">
+  <a class="back" href="index.html"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M15 6l-6 6 6 6"/></svg>Volver a la entrega</a>
+
+  <header class="hero">
+    <p class="kick">Para Ana · cómo funciona el sistema</p>
+    <h1>El ciclo EMMA</h1>
+    <p class="sub">No es una app que el alumno abre y cierra. Es un ciclo: lo que el alumno hace alimenta al docente, el docente mejora sus materiales y sus propias competencias, y eso vuelve al alumno. Un mismo motor —el SAC— sirve a muchos círculos.</p>
+  </header>
+
+  <section class="flow">
+
+    <article class="step a">
+      <div class="top"><span class="pill">1</span><div><span class="who">Nódulo del alumno</span><p class="st-t">Aprende haciendo, en el taller "Hazlo tú"</p></div></div>
+      <p class="st-b">El alumno trabaja una tarea real. EMMA <b>clasifica, no genera</b>: no le da la respuesta hecha, le acompaña a construirla. Al avanzar, deja <b>evidencia de proceso</b> —reformula, transfiere, objeta, pone límites— y su comprensión pasa de <i>ilusoria</i> a <i>demostrada</i>. Todo offline y soberano: el alumno decide qué se comparte.</p>
+      <span class="tag">κ orienta, no castiga</span><span class="tag">Cero nube · cero cuenta</span>
+    </article>
+
+    <div class="conn"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14 M6 13l6 6 6-6"/></svg></div>
+
+    <article class="step b">
+      <div class="top"><span class="pill">2</span><div><span class="who">Nódulo del docente</span><p class="st-t">Recibe el proceso y crea sus materiales</p></div></div>
+      <p class="st-b">Al docente no le llega una nota ni el producto final: le llega <b>cómo</b> ha aprendido cada alumno. Con esa lectura <b>crea o ajusta sus materiales</b> —dónde poner andamiaje y, sobre todo, cuándo retirarlo (pedagogía negativa)—. No vigila: interpreta procesos.</p>
+      <span class="tag">Evidencia de proceso, no vigilancia</span>
+    </article>
+
+    <div class="conn"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14 M6 13l6 6 6-6"/></svg></div>
+
+    <article class="step c">
+      <div class="top"><span class="pill">3</span><div><span class="who">El docente también crece</span><p class="st-t">Apartado de desarrollo profesional docente</p></div></div>
+      <p class="st-b">El mismo método se aplica al propio docente: un espacio para mejorar sus <b>competencias digitales</b> y de oficio (con un marco de referencia, p. ej. DigCompEdu), con el SAC guiándole a él. <b>El que enseña también aprende a hacerlo</b> — y por eso puede soltarle la mano al alumno a tiempo.</p>
+      <span class="tag">Marco de competencias digitales</span><span class="tag">Autonomía del docente</span>
+    </article>
+
+    <div class="conn"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14 M6 13l6 6 6-6"/></svg></div>
+
+    <article class="step d">
+      <div class="top"><span class="pill">4</span><div><span class="who">Un motor, muchos círculos</span><p class="st-t">El mismo SAC, en varios talleres</p></div></div>
+      <p class="st-b">La app con el SAC no es solo para el aula. El taller <b>"Hazlo tú"</b> sirve igual a <b>profesionales</b> y a creadoras como <b>tía Lili</b> para mejorar sus competencias —digitales, de oficio, de autonomía—. Cambia el contenido; el motor y el principio son los mismos.</p>
+      <span class="tag">Aula</span><span class="tag">Profesionales</span><span class="tag">Oficios y cultura</span>
+    </article>
+
+    <div class="loop">
+      <svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7 M3 3v4h4"/></svg>
+      <div><b>Y el bucle se cierra:</b> mejores materiales + un docente más competente → una mejor experiencia para el alumno → más autonomía. Cada vuelta deja el sistema un poco más fuerte, sin extraer datos ni crear dependencia.</div>
+    </div>
+  </section>
+
+  <section class="uses">
+    <h2>Dónde se usa, hoy</h2>
+    <p class="lead">El mismo ciclo, distintos círculos de personas:</p>
+    <div class="ucards">
+      <div class="uc"><p class="ut">Aula / formación reglada</p><p class="ud">Alumnado que aprende con autonomía; el docente lee procesos y adapta.</p></div>
+      <div class="uc"><p class="ut">Taller "Hazlo tú"</p><p class="ud">Profesionales y oficios mejorando competencias concretas, a su ritmo.</p></div>
+      <div class="uc"><p class="ut">Co-creación cultural</p><p class="ud">Tía Lili y creadoras: competencias digitales aplicadas a su propio trabajo.</p></div>
+      <div class="uc"><p class="ut">Desarrollo docente</p><p class="ud">El profesorado forma sus competencias digitales con el mismo método.</p></div>
+    </div>
+  </section>
+
+  <p class="foot">EMMA · SAC · xI — Diego Elvira Vásquez · UPSA, Cátedra de Inteligencia Extendida · Hack4Edu 2026 (SENIOR)<br>Un sistema que se fortalece sin vigilar ni retener.</p>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('tgl');
+    function cur(){ return document.documentElement.getAttribute('data-tema')==='dark'||(document.documentElement.getAttribute('data-tema')!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; }
+    t.addEventListener('click',function(){ document.documentElement.setAttribute('data-tema', cur()==='dark'?'light':'dark'); });
+  })();
+</script>
+<!--lectura-facil-v1-->
+<button class="lf-btn" id="lfBtn" type="button" aria-pressed="false" aria-label="Activar o desactivar el modo de lectura fácil para dislexia"><span class="b">Aa</span> Lectura fácil</button>
+<script>
+  (function(){
+    var K="emma-lectura", el=document.documentElement, b=document.getElementById("lfBtn");
+    function set(on){
+      el.setAttribute("data-lectura", on?"facil":"normal");
+      b.setAttribute("aria-pressed", on?"true":"false");
+      b.lastChild.textContent = on ? " Lectura fácil ✓" : " Lectura fácil";
+      try{ localStorage.setItem(K, on?"1":"0"); }catch(e){}
+    }
+    var saved="0"; try{ saved=localStorage.getItem(K)||"0"; }catch(e){}
+    set(saved==="1");
+    b.addEventListener("click", function(){ set(el.getAttribute("data-lectura")!=="facil"); });
+  })();
+</script>
+
+</body>
+</html>

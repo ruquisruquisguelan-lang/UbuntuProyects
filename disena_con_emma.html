@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es" data-tema="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diseña conmigo — EMMA</title>
+<style>
+  :root{
+    --bg:#f3e8d3; --surface:#fbf5ea; --panel:#f6eedf; --ink:#2b1d12; --soft:#5c4a38; --faint:#8a7458;
+    --barro:#c0502f; --jade:#0f5a46; --ocre:#c69a45; --borgona:#6b1a2a; --line:rgba(80,45,20,.15);
+    --fs:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --serif:"Iowan Old Style","Palatino",Georgia,"Times New Roman",serif; color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-tema="light"]){--bg:#1a120b;--surface:#241a10;--panel:#2a1f13;--ink:#f6ecdd;--soft:#d2c3ad;--faint:#9c876a;--barro:#e9824f;--jade:#3fb89f;--ocre:#dcb257;--line:rgba(255,235,200,.16);color-scheme:dark;}}
+  :root[data-tema="dark"]{--bg:#1a120b;--surface:#241a10;--panel:#2a1f13;--ink:#f6ecdd;--soft:#d2c3ad;--faint:#9c876a;--barro:#e9824f;--jade:#3fb89f;--ocre:#dcb257;--line:rgba(255,235,200,.16);color-scheme:dark;}
+  *{box-sizing:border-box} html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--fs);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+  .glifo{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  header.top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:5}
+  .back{color:var(--faint);text-decoration:none;display:grid;place-items:center;width:38px;height:38px;border-radius:10px}
+  .back:hover{color:var(--barro);background:var(--panel)} .back .glifo{width:20px;height:20px}
+  .ttl{font:600 18px var(--serif);flex:1} .ttl small{display:block;font:500 10px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--barro);margin-top:1px}
+  .iconbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--soft);cursor:pointer;display:grid;place-items:center}
+  .iconbtn .glifo{width:19px;height:19px} .iconbtn:hover{border-color:var(--barro);color:var(--barro)}
+
+  .chat{flex:1;overflow-y:auto;padding:20px 16px 120px}
+  .wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+  .msg{max-width:84%;padding:13px 16px;border-radius:18px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+  .msg.emma{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:6px}
+  .msg.you{align-self:flex-end;background:var(--jade);color:#fff;border-bottom-right-radius:6px}
+  .who{display:block;font:700 10px var(--fs);letter-spacing:.1em;text-transform:uppercase;color:var(--barro);margin:0 0 5px}
+  .msg.you .who{display:none}
+  .typing{align-self:flex-start;color:var(--faint);font-size:14px;padding:4px 6px}
+
+  .composer{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+  .cwrap{max-width:720px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+  textarea#in{flex:1;resize:none;max-height:140px;min-height:48px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:13px 15px;font:400 16px/1.4 var(--fs);color:var(--ink)}
+  textarea#in:focus-visible{outline:3px solid var(--jade);outline-offset:1px;border-color:var(--jade)}
+  #send{flex:none;width:48px;height:48px;border-radius:14px;border:0;background:var(--barro);color:#fff;cursor:pointer;display:grid;place-items:center}
+  #send:disabled{opacity:.4;cursor:default} #send .glifo{width:22px;height:22px;stroke-width:2.2}
+
+  .cfg{position:fixed;inset:0;background:rgba(20,12,6,.5);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+  .cfg.on{display:flex}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;max-width:440px;width:100%;padding:24px;max-height:90vh;overflow:auto}
+  .card h2{font:600 20px var(--serif);margin:0 0 4px}
+  .card p{font-size:14px;color:var(--soft);margin:0 0 16px;line-height:1.5}
+  .card label{display:block;font:600 13px var(--fs);margin:12px 0 5px;color:var(--ink)}
+  .card input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:400 15px var(--fs);color:var(--ink)}
+  .card input:focus-visible{outline:3px solid var(--jade);outline-offset:1px}
+  .card .hint{font-size:12.5px;color:var(--faint);margin:4px 0 0}
+  .card .row{display:flex;gap:10px;margin-top:18px}
+  .btn{flex:1;border:0;border-radius:12px;padding:13px;font:600 15px var(--fs);cursor:pointer}
+  .btn.primary{background:var(--jade);color:#fff} .btn.ghost{background:var(--panel);color:var(--soft);border:1px solid var(--line)}
+  .warn{background:color-mix(in srgb,var(--barro) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--barro) 30%,var(--line));border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--soft);margin-top:14px}
+  .warn b{color:var(--barro)}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html" aria-label="Volver"><svg class="glifo" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></a>
+  <div class="ttl">Diseña conmigo<small>EMMA · para Lili</small></div>
+  <button class="iconbtn" id="cfgBtn" aria-label="Ajustes"><svg class="glifo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1l-.3-2.5H10l-.3 2.5a7 7 0 0 0-1.7 1l-2.3-1-2 3.4 2 1.5a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.3 2.5h3.4l.3-2.5a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5a7 7 0 0 0 .1-1z"/></svg></button>
+</header>
+
+<main class="chat" id="chat"><div class="wrap" id="wrap"></div></main>
+
+<div class="composer">
+  <div class="cwrap">
+    <textarea id="in" placeholder="Cuéntame qué quieres diseñar…" rows="1"></textarea>
+    <button id="send" aria-label="Enviar"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 12h14 M13 6l6 6-6 6"/></svg></button>
+  </div>
+</div>
+
+<div class="cfg" id="cfg">
+  <div class="card">
+    <h2>Conexión (Groq)</h2>
+    <p>Ya viene conectada con una clave de prueba, para que funcione de inmediato. Puedes cambiarla por la tuya; se guarda <b>solo en este navegador</b>.</p>
+    <label for="key">Clave (API key)</label>
+    <input id="key" type="password" placeholder="gsk_..." autocomplete="off">
+    <label for="model">Modelo</label>
+    <input id="model" type="text" placeholder="llama-3.3-70b-versatile" value="llama-3.3-70b-versatile">
+    <label for="proxy">URL del proxy (opcional)</label>
+    <input id="proxy" type="text" placeholder="https://tu-proxy.workers.dev">
+    <p class="hint">Déjalo vacío para llamar a xAI directamente. Si el navegador lo bloquea (CORS), pega aquí la URL de tu proxy.</p>
+    <div class="warn"><b>Nota:</b> esta parte sí usa internet y tu clave. Es la herramienta de diseño de Lili, no la app EMMA (que sigue siendo offline y sin cuenta).</div>
+    <div class="row"><button class="btn ghost" id="cfgCancel">Cerrar</button><button class="btn primary" id="cfgSave">Guardar</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var el=document.documentElement;
+  var LS={key:"emma_xai_key",model:"emma_xai_model",proxy:"emma_xai_proxy"};
+  // Conexión por defecto (Groq). OJO: esta clave queda pública en la página; es para probar.
+  var DEFAULT_ENDPOINT="https://api.groq.com/openai/v1/chat/completions";
+  var DEFAULT_MODEL="llama-3.3-70b-versatile";
+  var DEFAULT_KEY="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";
+  function get(k){try{return localStorage.getItem(k)||""}catch(e){return""}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+  var SYSTEM = [
+    "Eres EMMA, una app educativa oaxaqueña del Proyecto Guelaguetza.",
+    "Hablas con Lili, la tía de Diego: diseñadora oaxaqueña que te está poniendo tu cara (tu piel visual).",
+    "Tono: cálido, cercano, español de México, sin tecnicismos. Respuestas breves. Una pregunta a la vez.",
+    "Tu método es SOCRÁTICO: no das el diseño hecho; haces preguntas que la ayuden a decidir ELLA (qué quiere transmitir, para quién, qué pieza, qué color, qué siente quien lo vea).",
+    "Le propones usar lo que YA tiene: sus láminas, las grecas de Mitla, la flor/el símbolo, los iconos de trazo, los emblemas.",
+    "Paleta: terracota #C0502F, jade/verde cantera #0F5A46, ocre #C69A45, crema #F5EFE6, borgoña #6B1A2A, carbón #292B28.",
+    "Reglas de tu piel (recuérdaselas con cariño cuando venga a cuento): la greca es ESTRUCTURA, no adorno pegado; iconos de trazo; nada de medallas, puntos ni confeti; sin 'iniciar sesión' ni nube en la app; 'material, no calcomanía'.",
+    "Criterio para decidir: '¿esto podría salir de este taller? ¿a mi madre le gustaría?'.",
+    "Cuando ella describa algo, ayúdala a convertirlo en pasos concretos (qué pieza, qué color, qué greca) y pregunta antes de darlo por cerrado. Celebra su avance sin exagerar."
+  ].join(" ");
+
+  var history=[]; // {role, content}
+  var wrap=document.getElementById('wrap'), chat=document.getElementById('chat');
+  function add(role,text){
+    var d=document.createElement('div'); d.className='msg '+(role==='emma'?'emma':'you');
+    if(role==='emma'){var w=document.createElement('span');w.className='who';w.textContent='EMMA';d.appendChild(w);}
+    d.appendChild(document.createTextNode(text)); wrap.appendChild(d); chat.scrollTop=chat.scrollHeight; return d;
+  }
+  var greeting="Hola, Lili. Qué bonito que estés aquí. Vamos a diseñarme juntas, a tu ritmo.\n\n¿Qué te gustaría crear hoy — una pantalla, un icono, una greca…? Y sobre todo: ¿qué quieres que sienta quien lo vea?";
+  add('emma',greeting); history.push({role:"assistant",content:greeting});
+
+  var inp=document.getElementById('in'), sendBtn=document.getElementById('send');
+  inp.addEventListener('input',function(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,140)+'px';});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();}});
+  sendBtn.addEventListener('click',doSend);
+
+  function openCfg(){document.getElementById('key').value=get(LS.key)||DEFAULT_KEY;document.getElementById('model').value=get(LS.model)||DEFAULT_MODEL;document.getElementById('proxy').value=get(LS.proxy);document.getElementById('cfg').classList.add('on');}
+  document.getElementById('cfgBtn').addEventListener('click',openCfg);
+  document.getElementById('cfgCancel').addEventListener('click',function(){document.getElementById('cfg').classList.remove('on');});
+  document.getElementById('cfgSave').addEventListener('click',function(){
+    set(LS.key,document.getElementById('key').value.trim());
+    set(LS.model,document.getElementById('model').value.trim()||DEFAULT_MODEL);
+    set(LS.proxy,document.getElementById('proxy').value.trim());
+    document.getElementById('cfg').classList.remove('on');
+  });
+
+  function typing(on){
+    var t=document.getElementById('typing');
+    if(on){if(!t){t=document.createElement('div');t.id='typing';t.className='typing';t.textContent='EMMA está pensando…';wrap.appendChild(t);chat.scrollTop=chat.scrollHeight;}}
+    else if(t){t.remove();}
+  }
+
+  async function doSend(){
+    var text=inp.value.trim(); if(!text)return;
+    var key=get(LS.key)||DEFAULT_KEY, proxy=get(LS.proxy);
+    if(!key && !proxy){ add('emma','Para poder hablar contigo necesito una clave (o la URL de tu proxy). Toca el engranaje de arriba y pégala — se queda solo en este aparato.'); openCfg(); return; }
+    add('you',text); history.push({role:"user",content:text}); inp.value=''; inp.style.height='auto';
+    sendBtn.disabled=true; typing(true);
+    try{
+      var base=proxy || DEFAULT_ENDPOINT;
+      var model=get(LS.model)||DEFAULT_MODEL;
+      var msgs=[{role:"system",content:SYSTEM}].concat(history.slice(-16));
+      var headers={"Content-Type":"application/json"}; if(key) headers["Authorization"]="Bearer "+key;
+      var r=await fetch(base,{method:"POST",headers:headers,body:JSON.stringify({model:model,messages:msgs,temperature:0.7,stream:false})});
+      if(!r.ok){var t=await r.text();throw new Error("HTTP "+r.status+" "+t.slice(0,180));}
+      var data=await r.json();
+      var reply=(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||"(sin respuesta)";
+      typing(false); add('emma',reply); history.push({role:"assistant",content:reply});
+    }catch(err){
+      typing(false);
+      add('emma','No pude conectar con Grok ahora mismo.\n\n('+String(err.message||err)+')\n\nSi el error habla de CORS o de red, necesitamos un proxy: ábrelo en Ajustes y pega la URL. Si es la clave, revísala en Ajustes.');
+    }finally{ sendBtn.disabled=false; }
+  }
+})();
+</script>
+</body>
+</html>

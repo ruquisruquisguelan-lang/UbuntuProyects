@@ -1,0 +1,17 @@
+PROXY PARA "DISEÑA CONMIGO" (Grok / xAI)
+========================================
+Sirve para que Lili no tenga que pegar ninguna clave: la clave vive segura en el servidor.
+
+Pasos (una sola vez, los hace Diego):
+1. Entra en https://dash.cloudflare.com  ->  Workers & Pages  ->  Create Worker.
+2. Pega el contenido de worker.js. Deploy.
+3. En el Worker: Settings -> Variables -> Add secret:
+      Nombre: GROQ_KEY
+      Valor:  tu clave de Groq (empieza por gsk_...)
+   Guarda y vuelve a desplegar.
+4. Copia la URL del Worker (algo como https://emma-grok.TUNOMBRE.workers.dev).
+5. En la app "Diseña conmigo" -> engranaje (Ajustes) -> pega esa URL en "URL del proxy".
+   Deja la casilla de la clave VACÍA. Listo: Lili ya puede hablar con EMMA.
+
+Sin proxy: también funciona pegando la clave de Groq directamente en Ajustes,
+pero entonces la clave queda en el navegador de quien use la página.

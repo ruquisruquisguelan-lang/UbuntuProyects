@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es" data-tema="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu camino, Lili</title>
+<style>
+  :root{
+    --bg:#faf7f2; --surface:#fff; --panel:#f3efe8; --ink:#241f1a; --soft:#574f45; --faint:#7a7065;
+    --line:rgba(60,40,20,.13);
+    --barro:#c0562a; --barro-soft:rgba(192,86,42,.10);
+    --jade:#1f7a6b; --jade-soft:rgba(31,122,107,.12);
+    --ocre:#b98a2e; --ocre-soft:rgba(185,138,46,.15);
+    --fs:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --serif:"Iowan Old Style","Palatino",Georgia,"Times New Roman",serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-tema="light"]){
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13);
+    --barro:#e8824f; --barro-soft:rgba(232,130,79,.15); --jade:#3fb89f; --jade-soft:rgba(63,184,159,.16);
+    --ocre:#d9b25a; --ocre-soft:rgba(217,178,90,.16);
+    color-scheme:dark;
+  }}
+  :root[data-tema="dark"]{
+    --bg:#121110; --surface:#1d1a16; --panel:#242019; --ink:#f3ede4; --soft:#cbc1b4; --faint:#9c9284;
+    --line:rgba(255,255,255,.13);
+    --barro:#e8824f; --barro-soft:rgba(232,130,79,.15); --jade:#3fb89f; --jade-soft:rgba(63,184,159,.16);
+    --ocre:#d9b25a; --ocre-soft:rgba(217,178,90,.16);
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box} html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:18px/1.6 var(--fs);-webkit-font-smoothing:antialiased;
+    padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .wrap{max-width:680px;margin:0 auto;padding:34px 4px 90px}
+  .glifo{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tgl{position:fixed;top:14px;right:14px;z-index:9;background:var(--surface);border:1px solid var(--line);color:var(--soft);width:42px;height:42px;border-radius:12px;cursor:pointer;display:grid;place-items:center}
+  .tgl:focus-visible{outline:3px solid var(--jade);outline-offset:2px} .tgl .glifo{width:20px;height:20px}
+
+  .hero{padding:6px 0 22px}
+  .kick{font:700 12px var(--fs);letter-spacing:.14em;text-transform:uppercase;color:var(--barro);margin:0 0 12px}
+  h1{font:600 clamp(34px,8vw,52px)/1.05 var(--serif);letter-spacing:-.02em;margin:0 0 14px}
+  .sub{font:300 clamp(17px,3.2vw,20px)/1.55 var(--fs);color:var(--soft);max-width:52ch;margin:0}
+  .sub b{color:var(--ink)}
+
+  .prog{margin:24px 0 8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+  .prog .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--soft);margin-bottom:9px}
+  .prog .lab b{color:var(--jade);font-size:15px}
+  .bar{height:12px;border-radius:999px;background:color-mix(in srgb,var(--jade) 16%,var(--panel));overflow:hidden}
+  .bar span{display:block;height:100%;width:62%;background:var(--jade);border-radius:999px}
+
+  .tip{display:flex;gap:11px;align-items:flex-start;margin:16px 0 6px;font-size:15.5px;color:var(--soft);line-height:1.55}
+  .tip .glifo{flex:none;width:21px;height:21px;stroke:var(--barro);margin-top:2px}
+  .tip b{color:var(--ink)}
+
+  .steps{padding:18px 0 0}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 20px 18px;margin:0 0 14px}
+  .shead{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .pill{flex:none;width:44px;height:44px;border-radius:13px;background:var(--barro-soft);color:var(--barro);display:grid;place-items:center;font:600 19px var(--serif)}
+  .stt{font:600 21px/1.2 var(--serif);margin:0}
+  .sq{font-size:15px;color:var(--soft);margin:0 0 13px;line-height:1.5}
+  .row{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font:600 13px var(--fs);border-radius:999px;padding:6px 11px;line-height:1.3}
+  .chip.has{background:var(--jade-soft);color:var(--jade)}
+  .chip.todo{background:var(--barro-soft);color:var(--barro)}
+  .chip .glifo{width:14px;height:14px;stroke-width:2.4}
+  .done{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);font-size:14px;color:var(--faint)}
+  .done b{color:var(--soft)}
+  .done .glifo{flex:none;width:17px;height:17px;stroke:var(--ocre)}
+
+  .closer{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:22px 0 0;font-size:15.5px;color:var(--soft);line-height:1.6}
+  .closer b{color:var(--ink)}
+  .foot{text-align:center;color:var(--faint);font-size:14px;margin-top:28px;line-height:1.6}
+</style>
+<!--lectura-facil-v1-->
+<style id="lf-style">
+  /* ===== Modo Lectura fácil (dislexia) · opt-in, DUA: otra forma de representar ===== */
+  html[data-lectura="facil"] body{
+    font-family:Verdana,Tahoma,"Trebuchet MS",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    letter-spacing:.035em; word-spacing:.09em; line-height:1.75;
+  }
+  html[data-lectura="facil"] p,
+  html[data-lectura="facil"] li,
+  html[data-lectura="facil"] .st-b,
+  html[data-lectura="facil"] .ds,
+  html[data-lectura="facil"] .sub,
+  html[data-lectura="facil"] .lead,
+  html[data-lectura="facil"] .nd{
+    max-width:64ch; text-align:left !important; line-height:1.8;
+  }
+  html[data-lectura="facil"] em,
+  html[data-lectura="facil"] i{ font-style:normal; font-weight:600; }
+  html[data-lectura="facil"] h1,
+  html[data-lectura="facil"] h2,
+  html[data-lectura="facil"] h3{ letter-spacing:.005em; word-spacing:.04em; }
+  /* botón flotante */
+  .lf-btn{position:fixed;left:16px;bottom:16px;z-index:99999;display:inline-flex;align-items:center;gap:8px;
+    background:#1f7a6b;color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font:600 14px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:11px 15px;box-shadow:0 8px 22px -10px rgba(0,0,0,.5)}
+  .lf-btn:hover{filter:brightness(1.06)}
+  .lf-btn:focus-visible{outline:3px solid #c0562a;outline-offset:2px}
+  .lf-btn .b{font-weight:800;font-size:15px;letter-spacing:.02em}
+  html[data-lectura="facil"] .lf-btn{background:#c0562a}
+  @media (max-width:420px){ .lf-btn{padding:10px 13px;font-size:13px} }
+  @media print{ .lf-btn{display:none} }
+</style>
+
+</head>
+<body>
+<button class="tgl" id="tgl" aria-label="Cambiar entre modo claro y oscuro"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none"/></svg></button>
+<div class="wrap">
+  <header class="hero">
+    <p class="kick">Proyecto Guelaguetza · para Lili</p>
+    <h1>Tu camino, Lili</h1>
+    <p class="sub">Ya has hecho <b>muchísimo</b>. Esto no es trabajo nuevo: es solo el <b>orden</b> para terminar, un paso cada vez. No hay prisa — haz uno, respira, y sigue.</p>
+  </header>
+
+  <div class="prog">
+    <div class="lab"><span>Por dónde vas</span><b>Más de la mitad hecho</b></div>
+    <div class="bar"><span></span></div>
+  </div>
+
+  <p class="tip"><svg class="glifo" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5 M12 16h.01"/></svg><span>Antes de empezar: tienes muchas copias repetidas (los "(1)", "(2)"…). No te agobies — eso se arregla en el <b>Paso 1</b>.</span></p>
+
+  <section class="steps">
+
+    <article class="step">
+      <div class="shead"><span class="pill">1</span><p class="stt">Ordena tu mesa</p></div>
+      <p class="sq">Deja <b>una sola carpeta limpia</b>, con una copia de cada cosa. Nada más.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Ya tienes todo el material</span>
+      </div>
+      <div class="row">
+        <span class="chip todo">✎ Borra las copias repetidas</span><span class="chip todo">✎ Una versión de cada archivo</span>
+      </div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;abres la carpeta y entiendes qué hay de un vistazo.</p>
+    </article>
+
+    <article class="step">
+      <div class="shead"><span class="pill">2</span><p class="stt">El alfabeto visual</p></div>
+      <p class="sq">Los <b>colores</b> y las <b>letras</b> de la marca. El idioma común de todo.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Paleta lista (terracota, jade, ocre, crema)</span>
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Tokens hechos</span>
+      </div>
+      <div class="row"><span class="chip todo">✎ Usar siempre estos 6 colores, no otros</span></div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;todo usa la misma paleta, sin colores sueltos.</p>
+    </article>
+
+    <article class="step">
+      <div class="shead"><span class="pill">3</span><p class="stt">Los adornos — tu fuerte</p></div>
+      <p class="sq">Grecas, marcos, cenefas, texturas. Lo que da el alma oaxaqueña.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Más de 60 piezas — muy avanzado</span>
+      </div>
+      <div class="row"><span class="chip todo">✎ Elige las 8–10 mejores como "oficiales"</span></div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;tienes un juego corto de grecas que se repite en todo.</p>
+    </article>
+
+    <article class="step">
+      <div class="shead"><span class="pill">4</span><p class="stt">Los iconos</p></div>
+      <p class="sq">Los símbolos: universidad, comunidad, artesano, mercado… Todos <b>hermanos</b>, mismo trazo.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 14 iconos + muchas láminas de referencia</span>
+      </div>
+      <div class="row"><span class="chip todo">✎ Completar la familia que falta</span><span class="chip todo">✎ Mismo grosor de línea en todos</span></div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;se reconocen pequeños y parecen de la misma familia.</p>
+    </article>
+
+    <article class="step">
+      <div class="shead"><span class="pill">5</span><p class="stt">Las pantallas</p></div>
+      <p class="sq">Cómo se ve todo <b>junto</b> en la app. Aquí se nota tu trabajo.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Prototipo navegable + láminas de pantallas</span>
+      </div>
+      <div class="row"><span class="chip todo">✎ Vestir 3–4 pantallas clave con tus grecas e iconos</span></div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;alguien ve una pantalla y dice "esto es Oaxaca, y se entiende".</p>
+    </article>
+
+    <article class="step">
+      <div class="shead"><span class="pill">6</span><p class="stt">Entregar</p></div>
+      <p class="sq">Dejar lo elegido <b>junto y ordenado</b> para que Diego lo suba.</p>
+      <div class="row">
+        <span class="chip has"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> El Kit ya está ordenado en carpetas (00–08)</span>
+      </div>
+      <div class="row"><span class="chip todo">✎ Meter lo elegido en ese orden</span><span class="chip todo">✎ Pasárselo a Diego</span></div>
+      <p class="done"><svg class="glifo" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg><b>Listo cuando:</b>&nbsp;está en la carpeta ordenada y se abre sola.</p>
+    </article>
+  </section>
+
+  <div class="closer">
+    <b>Una idea para no perderte:</b> hay <b>dos pieles de la misma familia</b> — <b>EMMA</b> (sencilla, para aprender) y la <b>Plataforma</b> (más rica, para el territorio). Mismo alfabeto y mismos adornos; solo cambia el vestido. Si dudas dónde va algo, pregúntate: ¿es para que alguien <i>aprenda</i> (EMMA) o para <i>conectar actores del territorio</i> (Plataforma)?
+  </div>
+
+  <p class="foot">Gracias, Lili. Un paso cada vez.<br>Proyecto Guelaguetza · EMMA</p>
+</div>
+<script>
+  (function(){
+    var t=document.getElementById('tgl');
+    function cur(){ return document.documentElement.getAttribute('data-tema')==='dark'||(document.documentElement.getAttribute('data-tema')!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'; }
+    t.addEventListener('click',function(){ document.documentElement.setAttribute('data-tema', cur()==='dark'?'light':'dark'); });
+  })();
+</script>
+<!--lectura-facil-v1-->
+<button class="lf-btn" id="lfBtn" type="button" aria-pressed="false" aria-label="Activar o desactivar el modo de lectura fácil para dislexia"><span class="b">Aa</span> Lectura fácil</button>
+<script>
+  (function(){
+    var K="emma-lectura", el=document.documentElement, b=document.getElementById("lfBtn");
+    function set(on){
+      el.setAttribute("data-lectura", on?"facil":"normal");
+      b.setAttribute("aria-pressed", on?"true":"false");
+      b.lastChild.textContent = on ? " Lectura fácil ✓" : " Lectura fácil";
+      try{ localStorage.setItem(K, on?"1":"0"); }catch(e){}
+    }
+    var saved="0"; try{ saved=localStorage.getItem(K)||"0"; }catch(e){}
+    set(saved==="1");
+    b.addEventListener("click", function(){ set(el.getAttribute("data-lectura")!=="facil"); });
+  })();
+</script>
+
+</body>
+</html>
